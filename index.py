@@ -98,7 +98,7 @@ def trigger_script():
                  # Trigger the second webhook using the extracted COMPANY_ID value
                 company_id = result.get('COMPANY_ID', '')
                 if company_id:
-                    company_webhook_url = f"https://rtech.bitrix24.com/rest/1/a1swos03sn86qbns/crm.company.get.json?ID={company_id}"
+                    company_webhook_url = f"https://rtech.bitrix24.com/rest/1/n0nai3kd6jtjp6ak/crm.company.get.json?ID={company_id}"
                     company_response = requests.get(company_webhook_url)
 
                     if company_response.status_code == 200:
