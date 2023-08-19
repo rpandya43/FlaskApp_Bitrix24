@@ -4,6 +4,9 @@ import requests
 import json 
 from time import sleep
 import urllib.parse
+import datetime
+
+
 
 app = Flask(__name__)
 
@@ -98,7 +101,7 @@ def trigger_script():
                  # Trigger the second webhook using the extracted COMPANY_ID value
                 company_id = result.get('COMPANY_ID', '')
                 if company_id:
-                    company_webhook_url = f"https://rtech.bitrix24.com/rest/1/n0nai3kd6jtjp6ak/crm.company.get.json?ID={company_id}"
+                    company_webhook_url = f"https://rtech.bitrix24.com/rest/1/a1swos03sn86qbns/crm.company.get.json?ID={company_id}"
                     company_response = requests.get(company_webhook_url)
 
                     if company_response.status_code == 200:
@@ -144,7 +147,10 @@ def trigger_script():
 
                         #cus = 'Pia'
 
-                        Folder_Location = f'root:/{Full_Name}/{cus}:'
+                        today = datetime.date.today()
+                        year = today.year
+
+                        Folder_Location = f'root:/{Full_Name}/{year}/{cus}:'
 
                         if sector == 'RTech_CRM_ENERGYONG':
                             folder_endpoint = f'{graph_api_url}drives/{drive_id_ong}/items/{Folder_Location}/children'
@@ -195,7 +201,7 @@ def trigger_script():
                             # webbrowser.open(access_link) # Un Hash to open URL in NON PROD development Area
                             # Reload the Folder Location and start from inside the newly created folder 
                             
-                            Folder_Location=f'root:/{Full_Name}/{cus}/{folder_name}:'
+                            Folder_Location=f'root:/{Full_Name}/{year}/{cus}/{folder_name}:'
 
                             if sector == 'RTech_CRM_ENERGYONG':
                                 folder_endpoint_2 = f'{graph_api_url}drives/{drive_id_ong}/items/{Folder_Location}/children'
@@ -268,4 +274,4 @@ def trigger_script():
         return jsonify({"error": str(e)}), 500
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=9852, debug=True)
+    app.run(host='0.0.0.0', port=9852, debug=False)
