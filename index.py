@@ -150,7 +150,7 @@ def trigger_script():
                         today = datetime.date.today()
                         year = today.year
 
-                        Folder_Location = f'root:/{Full_Name}/{year}/{cus}:'
+                        Folder_Location = f'root:/{year}/{cus}:'
 
                         if sector == 'RTech_CRM_ENERGYONG':
                             folder_endpoint = f'{graph_api_url}drives/{drive_id_ong}/items/{Folder_Location}/children'
@@ -201,7 +201,7 @@ def trigger_script():
                             # webbrowser.open(access_link) # Un Hash to open URL in NON PROD development Area
                             # Reload the Folder Location and start from inside the newly created folder 
                             
-                            Folder_Location=f'root:/{Full_Name}/{year}/{cus}/{folder_name}:'
+                            Folder_Location=f'root:{year}/{cus}/{folder_name}:'
 
                             if sector == 'RTech_CRM_ENERGYONG':
                                 folder_endpoint_2 = f'{graph_api_url}drives/{drive_id_ong}/items/{Folder_Location}/children'
