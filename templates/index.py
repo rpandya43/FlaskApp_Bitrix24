@@ -238,6 +238,12 @@ def trigger_script():
 
                         else:
                             print(f"Failed to create folder. Status code: {response.status_code}, Response: {response.text}")
+                            access_link = None
+                            
+                    except Exception as e:
+                        print(f"Error: {e}")
+                        # Set a default value for access_link
+                        access_link = None
 
                         print('Step 5, Companies Stored Data:', company_stored_data)
 
