@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bitrix 24 Link Re-generator</title>
+    <meta name="robots" content="noindex, nofollow">
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            text-align: center;
+            max-width: 600px;
+        }
+        input, button {
+            font-size: 16px;
+            padding: 10px;
+            margin: 10px 0;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:disabled {
+            background-color: #cccccc;
+        }
+        .warning {
+            color: red;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+        .info {
+            font-size: 14px;
+            text-align: left;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Bitrix 24 Link Re-generator</h1>
+        <label for="user-id">Enter ID:</label>
+        <input type="text" id="user-id">
+        <br>
+        <button id="send-btn" onclick="sendPostRequest()">Send Request</button>
+        <br>
+        <p id="result"></p>
+        <div class="warning">
+            Warning: Once you click "Send Request", it will automatically regenerate all folders and old information will be lost.
+        </div>
+        <div class="info">
+            <p>Please verify the following information:</p>
+            <ul>
+                <li>1. Company is selected in Bitrix 24.</li>
+                <li>2. There are NO special characters in the ID.</li>
+            </ul>
+            <p>This tool is only meant for RTech Group Sales team. It is a punishable offence to use this without permission.</p>
+        </div>
+    </div>
+
+    <script>
+        async function sendPostRequest() {
+            const userId = document.getElementById('user-id').value;
+
+            const url = "http://178.79.147.177:9852/trigger-script";
+            const params = {
+                "event": "ONCRMLEADADD",
+                "data[FIELDS][ID]": userId,
+                "ts": 1706799761,
+                "auth[domain]": "rtech.bitrix24.com",
+                "auth[client_endpoint]": "https://rtech.bitrix24.com/rest/",
+                "auth[server_endpoint]": "https://oauth.bitrix.info/rest/",
+                "auth[member_id]": "43615c91b71c9d18bd172435af4bc425",
+                "auth[application_token]": "gt77z8s8bewt9brhn01ks7tjm6rlkny1"
+            };
+
+            try {
+                const response = await fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    body: new URLSearchParams(params)
+                });
+
+                const responseData = await response.json();
+                document.getElementById('result').innerText = `Response: ${responseData.message}`;
+            } catch (error) {
+                document.getElementById('result').innerText = `Error: ${error.message}`;
+            }
+        }
+    </script>
+
+</body>
+</html>
