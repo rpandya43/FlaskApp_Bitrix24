@@ -7,9 +7,55 @@ import datetime
 
 app = Flask(__name__)
 
+@app.route('/test', methods=['GET', 'POST'])
+def test_endpoint():
+    print('=' * 40)
+    print('TEST ENDPOINT HIT!')
+    print('=' * 40)
+    print(f'Method: {request.method}')
+    print(f'Headers: {dict(request.headers)}')
+    print(f'Body: {request.get_data()}')
+    return jsonify({"status": "Server is working!", "method": request.method}), 200
+
+@app.route('/health', methods=['GET'])
+def health_check():
+    return jsonify({"status": "Server is running"}), 200
+
+@app.route('/', defaults={'path': ''}, methods=['GET', 'POST', 'PUT', 'DELETE'])
+@app.route('/<path:path>', methods=['GET', 'POST', 'PUT', 'DELETE'])
+def catch_all(path):
+    print('=' * 60)
+    print(f'CATCH-ALL ROUTE HIT: /{path}')
+    print('=' * 60)
+    print(f'Method: {request.method}')
+    print(f'Headers: {dict(request.headers)}')
+    print(f'Body: {request.get_data()}')
+    return jsonify({"message": f"Received {request.method} request to /{path}"}), 200
+
 @app.route('/trigger-script', methods=['POST'])
 def trigger_script():
     try:
+        print('=' * 60)
+        print('INCOMING REQUEST RECEIVED!')
+        print('=' * 60)
+        print(f'Method: {request.method}')
+        print(f'URL: {request.url}')
+        print(f'Remote Address: {request.remote_addr}')
+        print(f'Content Type: {request.content_type}')
+        print(f'Content Length: {request.content_length}')
+        print()
+        
+        print('ALL HEADERS:')
+        for header_name, header_value in request.headers:
+            print(f'  {header_name}: {header_value}')
+        print()
+        
+        print('RAW BODY:')
+        raw_body = request.get_data()
+        print(f'  Body length: {len(raw_body)}')
+        print(f'  Body content: {raw_body}')
+        print()
+        
         print('Running Zoho CRM Deal Processing...')
 
         # Extract data from headers instead of body
